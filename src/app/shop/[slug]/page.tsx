@@ -1,0 +1,18 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { prisma } from '@/lib/prisma';
+import { getBusinessProfile } from '@/lib/business-profile';
+import { PublicFooter, PublicHeader } from '@/components/seo-page';
+export const dynamic = 'force-dynamic';
+type Props = { params: Promise<{ slug: string }> };
+async function getProduct(slug: string) { return prisma.product.findFirst({ where: { slug, status: 'PUBLISHED' }, include: { brand: true, category: true } }); }
+export async function generateMetadata({ params }: Props): Promise<Metadata> { const { slug } = await params; const p = await getProduct(slug); return p ? { title: p.seoTitle || `${p.name} | QuickFix RO Parts`, description: p.seoDescription || p.description.slice(0, 155) || `Enquire about ${p.name} compatibility and current availability.` } : { title: 'RO Part | QuickFix' }; }
+export default async function ProductPage({ params }: Props) {
+  const { slug } = await params;
+  const [product, profile] = await Promise.all([getProduct(slug), getBusinessProfile()]);
+  if (!product) notFound();
+  const wa = `https://wa.me/${profile.whatsapp}?text=${encodeURIComponent(`Hi QuickFix, please confirm compatibility and availability for ${product.name} (SKU ${product.sku}). My purifier model is `)}`;
+  const schema = { '@context': 'https://schema.org', '@type': 'Product', name: product.name, description: product.description, sku: product.sku, image: product.imageUrl || undefined, brand: product.brand ? { '@type': 'Brand', name: product.brand.name } : undefined, offers: { '@type': 'Offer', priceCurrency: 'INR', price: (product.price / 1).toFixed(2), availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock', url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/shop/${product.slug}` } };
+  return <main className="seo-page"><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }} /><PublicHeader /><div className="container crumbs"><Link href="/">Home</Link><span>›</span><Link href="/shop">Shop</Link>{product.category && <><span>›</span><Link href={`/shop/category/${product.category.slug}`}>{product.category.name}</Link></>}<span>›</span><span>{product.name}</span></div><section className="section product-detail"><div className="container product-detail-grid"><div className="product-image-large">{product.imageUrl ? <img src={product.imageUrl} alt={product.name} /> : <div className="store-placeholder">RO<br/>PART</div>}</div><div className="product-detail-copy"><div className="eyebrow">{product.brand?.name || product.category?.name || 'RO SPARE PART'}</div><h1>{product.name}</h1><p className="body-copy">{product.description || 'Contact the team to confirm model compatibility and part details.'}</p><div className="product-detail-price">₹{product.price.toLocaleString('en-IN')}{product.mrp && product.mrp > product.price && <del>₹{product.mrp.toLocaleString('en-IN')}</del>}</div><p className="stock-line">{product.stock > 0 ? 'Availability must be confirmed before ordering.' : 'Currently out of stock; contact the team to enquire.'}</p><div className="product-specs"><div><span>SKU</span><b>{product.sku}</b></div><div><span>HSN</span><b>{product.hsn || 'Confirm with seller'}</b></div><div><span>GST</span><b>{product.gstPercent}% (verify on invoice)</b></div></div><div className="product-actions"><a className="button button-orange" href={wa}>Check compatibility & stock <span>→</span></a><p>Online cart and payment checkout are not active yet. Confirm the final price, tax, delivery and return terms before payment.</p></div></div></div></section><PublicFooter /></main>;
+}

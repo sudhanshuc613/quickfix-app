@@ -184,7 +184,7 @@ Phir seed data load karo:
 npm run db:seed
 ```
 
-Success message mein 51 localities, 12 brands aur 5 service types aane chahiye. Seed prices **examples** hain; production price list nahi. Database table/view ke liye:
+Success message mein 51 localities, 12 brands, 12 product categories aur 5 service types aane chahiye. Seed prices **examples** hain; production price list nahi. Database table/view ke liye:
 
 ```bash
 npm run db:studio

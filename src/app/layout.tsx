@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { env } from '@/lib/env';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
   title: { default: 'QuickFix RO Service in Patna', template: '%s | QuickFix' },
