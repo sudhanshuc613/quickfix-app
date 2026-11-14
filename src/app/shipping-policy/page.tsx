@@ -1,0 +1,4 @@
+import { PolicyPage, policyMetadata } from '@/components/policy-page';
+const description = 'Draft shipping information for the QuickFix spare-parts store.';
+export const metadata = policyMetadata('Shipping Policy', description);
+export default function Page() { return <PolicyPage title="Shipping Policy" description={description} sections={[{ heading: 'Current website status', paragraphs: ['The online spare-parts store, checkout and parcel shipping are not active on this starter site. No delivery date or shipping service is offered here yet.'] }, { heading: 'Before online sales begin', paragraphs: ['The business owner must add the serviceable PIN codes, order cut-off times, handling and transit estimates, shipping charges, courier details, damaged/missing parcel process and customer support contact before accepting an order. Any delivery estimate should be clearly identified as an estimate.'] }]} />; }

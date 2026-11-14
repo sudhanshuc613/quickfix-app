@@ -172,6 +172,12 @@ npm run db:push
 
 Yeh starter Prisma schema se tables banata hai. Expected result success/“database is now in sync” jaisa hona chahiye. Is command ko galat database URL ke saath chalaya toh galat database mein schema ban sakta hai—URL ke project name/host ko check karna.
 
+Ab generated Prisma client banao (ye step seed command ko CJS/top-level-await error se bachata hai):
+
+```bash
+npm run db:generate
+```
+
 Phir seed data load karo:
 
 ```bash

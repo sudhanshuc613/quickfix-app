@@ -1,0 +1,7 @@
+import Link from 'next/link';
+import { PublicFooter, PublicHeader } from '@/components/seo-page';
+
+type Section = { heading: string; paragraphs: string[]; bullets?: string[] };
+export function StaticContentPage({ title, eyebrow = 'QUICKFIX · PATNA', lead, sections, notice }: { title: string; eyebrow?: string; lead: string; sections: Section[]; notice?: string }) {
+  return <main className="seo-page"><PublicHeader /><section className="seo-hero"><div className="container seo-hero-inner"><div><div className="eyebrow">{eyebrow}</div><h1>{title}</h1><p>{lead}</p><Link className="button button-orange" href="/ro-service-in-patna">Explore RO service <span>→</span></Link></div><div className="seo-hero-card"><span className="seo-card-mark">QF</span><b>Local RO care enquiries</b><p>Contact QuickFix to confirm service availability, terms and current charges for your address.</p></div></div></section><div className="container crumbs"><Link href="/">Home</Link><span>›</span><span>{title}</span></div><section className="section"><div className="container document-content">{notice && <div className="document-notice"><b>Important:</b> {notice}</div>}{sections.map((section) => <article key={section.heading}><h2>{section.heading}</h2>{section.paragraphs.map((p) => <p key={p}>{p}</p>)}{section.bullets && <ul>{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul>}</article>)}</div></section><PublicFooter /></main>;
+}

@@ -1,16 +1,17 @@
-# QuickFix.app — Phase 1 foundation
+# QuickFix.app — Phase 1 foundation + Phase 2 public-site slice
 
 Starter for the QuickFix RO service and spare-parts business in Patna. **Stack is the one in your spec:** Next.js App Router + TypeScript, PostgreSQL on Neon, Prisma, with a Vercel deployment path.
 
 ## What's included in this delivery
 
-- Mobile-first, server-rendered public homepage and `/ro-service-in-patna` page, basic metadata, sitemap, robots rules, LocalBusiness JSON-LD, telephone/WhatsApp links.
+- Mobile-first, server-rendered homepage, core service pages (repair, installation, AMC, commercial), 12 brand enquiry pages, About, Contact, FAQ and Reviews pages; sitemap, robots rules, LocalBusiness/Service/FAQ JSON-LD and phone/WhatsApp links.
+- Draft Privacy, Terms, Refund, Shipping and Warranty pages are clearly marked owner/legal review required and set noindex until reviewed. Locality landing pages and the full editorial CMS remain future work; we will not invent locality water data, landmarks, reviews, service prices or response promises.
 - Prisma/PostgreSQL starting schema for customers, addresses, admins, localities, brands/models, services, bookings, technicians, products, inventory, orders, payments, banners, settings and audit logs.
 - Starter seed data for the 51 requested Patna-area localities, 12 RO brands and 5 service types.
 - `/control/login` owner sign-in with password + TOTP and a 30-minute, HttpOnly, Secure-in-production, SameSite=Strict signed cookie. The dashboard is not linked publicly and is set `noindex`.
 - Security response headers, sign-in origin check, environment-variable examples, setup scripts and deployment instructions.
 
-**This is Phase 1, not the complete commerce platform.** The OTP/SMS provider, customer login, editable admin CMS, bookings, checkout/Razorpay, shipping, invoices, notifications, image storage, live rate-limit service, production migrations/backups, role management and the rest of the admin modules are not implemented yet. Do not accept live orders or store real customer data until those phases are built and tested. No performance score, Google rank, provider approval or production security audit is claimed by this starter.
+**This delivery completes the Phase 1 foundation and a partial Phase 2 public-site slice; it is not the complete commerce platform.** Locality pages with verified unique editorial content, OTP/SMS customer login, live booking workflow, editable admin CMS, products/cart/checkout/Razorpay, shipping, invoices, notifications, image storage, persistent rate limiting, production migrations/backups, role management and the rest of the admin modules are not implemented yet. Do not accept live orders or store real customer data until those phases are built and tested. No performance score, Google rank, provider approval or production security audit is claimed by this starter.
 
 ## Requirements
 
@@ -49,6 +50,7 @@ Starter for the QuickFix RO service and spare-parts business in Patna. **Stack i
 
    ```bash
    npm run db:push
+   npm run db:generate
    npm run db:seed
    ```
 
@@ -92,6 +94,7 @@ Vercel's normal project-import flow connects a Git repository; **do not upload t
    ```bash
    npm install
    npm run db:push
+   npm run db:generate
    npm run db:seed
    ```
 
@@ -138,7 +141,7 @@ npm run typecheck
 npm run build
 ```
 
-`npm run build` also generates the Prisma client. Database operations (`db:push`, `db:seed`) are separate and require real Neon credentials in `.env.local`.
+`npm run build` also generates the Prisma client. Database operations (`db:push`, `db:generate`, `db:seed`) are separate; `db:push`/`db:seed` require real Neon credentials in `.env.local`.
 
 ## Before production
 
