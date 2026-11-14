@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
 import { PublicFooter, PublicHeader } from '@/components/seo-page';
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'RO Spare Parts Shop | QuickFix Patna', description: 'Browse published RO purifier spare-parts enquiries by category. Availability and compatibility must be confirmed.' };
+export const metadata: Metadata = { title: 'RO Spare Parts Shop | QuickFix Patna', alternates: { canonical: '/shop' }, description: 'Browse published RO purifier spare-parts enquiries by category. Availability and compatibility must be confirmed.' };
 export default async function ShopPage() {
   let categories: { id: string; name: string; slug: string }[] = [];
   let products: { id: string; name: string; slug: string; price: number; mrp: number | null; stock: number; imageUrl: string | null; category: { name: string; slug: string } | null; brand: { name: string } | null }[] = [];

@@ -2,9 +2,7 @@
   "name": "quickfix-app",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": ">=22.0.0"
-  },
+  "engines": { "node": ">=22.0.0" },
   "scripts": {
     "dev": "prisma generate && next dev",
     "build": "prisma generate && next build",
@@ -38,10 +36,5 @@
     "prisma": "7.10.1",
     "tsx": "4.20.5",
     "typescript": "5.8.3"
-  },
-  "allowScripts": {
-    "@prisma/engines@7.10.1": true,
-    "esbuild@0.25.12": true,
-    "prisma@7.10.1": true
   }
 }

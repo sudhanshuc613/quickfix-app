@@ -9,7 +9,7 @@ const faqs = [
   { q: 'Do replacement parts come with a warranty?', a: 'Warranty, duration and exclusions depend on the specific part and job. Ask for the written terms on your invoice or job sheet.' },
   { q: 'Can I buy spare parts online here?', a: 'The online shop is not active yet. Contact QuickFix with your purifier model and part requirement to enquire about availability.' }
 ];
-export const metadata: Metadata = { title: 'RO Service FAQs | QuickFix Patna', description: 'Answers about RO service availability, charges, brands and warranty enquiries in Patna.' };
+export const metadata: Metadata = { title: 'RO Service FAQs | QuickFix Patna', alternates: { canonical: '/faq' }, description: 'Answers about RO service availability, charges, brands and warranty enquiries in Patna.' };
 export default async function Page() {
   const profile = await getBusinessProfile();
   const schema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };

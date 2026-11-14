@@ -1,4 +1,4 @@
 import type { Metadata } from 'next';
 import { StaticContentPage } from '@/components/static-content-page';
-export const metadata: Metadata = { title: 'Customer Reviews | QuickFix RO Care', description: 'Customer feedback for QuickFix RO Care in Patna.' };
+export const metadata: Metadata = { title: 'Customer Reviews | QuickFix RO Care', alternates: { canonical: '/reviews' }, description: 'Customer feedback for QuickFix RO Care in Patna.' };
 export default function Page() { return <StaticContentPage title="Customer reviews" lead="We only want to publish feedback from genuine customers about real completed jobs." sections={[{ heading: 'Reviews are being collected', paragraphs: ['Verified customer reviews will be added here after completed service jobs and with the customer’s permission. No testimonials, ratings or customer counts are invented for this page.'] }, { heading: 'Share feedback', paragraphs: ['After a real service, contact QuickFix directly to share feedback. Please do not include private account details, OTPs or payment information in a public review.'] }]} />; }

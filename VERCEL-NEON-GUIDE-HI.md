@@ -33,7 +33,7 @@ Aapka laptop
 - Neon account
 - Node.js **22 LTS** (is project ki dependency ke liye)
 - Git
-- Real business phone/WhatsApp/address. GST, policies, photos aur service prices launch se pehle verify karne honge.
+- Owner-confirmed phone/WhatsApp 9661288308 hai. Public address, business/GST details, policy terms, real job photos aur service prices launch se pehle owner se verify karwao. Included AI images illustrative hain, actual technician/stock photos nahi.
 
 Install ke baad terminal mein check karo:
 
@@ -184,7 +184,7 @@ Phir seed data load karo:
 npm run db:seed
 ```
 
-Success message mein 51 localities, 12 brands, 12 product categories aur 5 service types aane chahiye. Seed prices **examples** hain; production price list nahi. Database table/view ke liye:
+Success message mein 97 locality pages, 12 brands, 12 product categories aur 5 service types aane chahiye. Seed real product, stock ya customer prices nahi banata; service base-price defaults zero hain. Real price sirf verified owner admin data se dalo. Database table/view ke liye:
 
 ```bash
 npm run db:studio

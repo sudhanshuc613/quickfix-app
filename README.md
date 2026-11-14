@@ -1,19 +1,19 @@
-# QuickFix.app — Phase 1 foundation + Phase 2 public-site slice
+# QuickFix.app — Patna RO service, locality SEO and enquiry-shop foundation
 
 Starter for the QuickFix RO service and spare-parts business in Patna. **Stack is the one in your spec:** Next.js App Router + TypeScript, PostgreSQL on Neon, Prisma, with a Vercel deployment path.
 
 ## What's included in this delivery
 
 - Mobile-first, server-rendered homepage, core service pages (repair, installation, AMC, commercial), 12 brand enquiry pages, About, Contact, FAQ and Reviews pages; sitemap, robots rules, LocalBusiness/Service/FAQ JSON-LD and phone/WhatsApp links.
-- Draft Privacy, Terms, Refund, Shipping and Warranty pages are clearly marked owner/legal review required and set noindex until reviewed. Locality landing pages and the full editorial CMS remain future work; we will not invent locality water data, landmarks, reviews, service prices or response promises.
-- Owner-only product catalog CRUD (draft/publish/archive, SKU, price, stock, GST/HSN, category, brand, SEO fields) and business-profile settings (name, phone, WhatsApp, email, address, hours), protected API routes and audit entries for product/profile changes. Product images are URL-only in this slice; secure uploads are not yet configured.
+- 97 curated Patna/nearby locality enquiry pages and an all-areas directory, with location-specific metadata, FAQ/breadcrumb schema and exact-address coverage caveats. Draft Privacy, Terms, Refund, Shipping and Warranty pages remain noindex until reviewed. These locality guides do not claim an office or technician at each locality.
+- Owner-only product catalog CRUD (draft/publish/archive, SKU, price, stock, GST/HSN, category, brand, SEO fields), verified business-profile settings (including phone 96612 88308 default, optional legal name/GSTIN), protected APIs and audit entries. Product image upload is implemented as a signed Cloudinary integration and remains disabled until owner-only Cloudinary environment credentials are configured.
 - Public spare-parts browse/category/product pages only show admin-published, in-stock items. They are enquiry listings; cart, checkout, delivery estimates and payments are not active.
 - Prisma/PostgreSQL starting schema for customers, addresses, admins, localities, brands/models, services, bookings, technicians, products, inventory, orders, payments, banners, settings and audit logs.
-- Starter seed data for the 51 requested Patna-area localities, 12 RO brands, 12 product categories and 5 service types. No customer reviews, product records or real prices are invented.
+- Seed data for 97 curated Patna/nearby locality enquiry pages, 12 brand pages, 12 product categories and 5 service types. Public locality availability must be confirmed for each exact address. No customer reviews, real job photographs, product records, stock or prices are invented. The three included generated images are illustrative only, not photos of QuickFix technicians or confirmed stock.
 - `/control/login` owner sign-in with password + TOTP and a 30-minute, HttpOnly, Secure-in-production, SameSite=Strict signed cookie. The dashboard is not linked publicly and is set `noindex`.
 - Security response headers, sign-in origin check, environment-variable examples, setup scripts and deployment instructions.
 
-**This delivery completes the Phase 1 foundation plus partial public-site, catalog and settings slices; it is not the complete commerce/operations platform.** Locality pages with verified unique editorial content, OTP/SMS customer login, live booking workflow, cart/checkout/Razorpay, shipping, invoices, notifications, secure image storage, persistent rate limiting, full CMS (banners/blog/SEO), production migrations/backups, role management, order/CRM/technician modules and the remaining admin features are not implemented yet. The current public catalog is enquiry-only. Do not accept live orders or store real customer data until the remaining flows are built and tested. No performance score, Google rank, provider approval or production security audit is claimed.
+**This is still not the complete ecommerce and service-operations platform.** The current public shop is enquiry-only; there is no cart, checkout, payment, order fulfilment or customer account yet. OTP/SMS login, live booking/calendar, banners/blog/full editable CMS, customer/technician/order CRM, online invoices, shipping/returns automation, persistent rate limiting, admin roles, production database backup/migrations and launch security review still need implementation/testing. Policy pages exist as drafts and are deliberately no-index until the owner and qualified adviser verify the real business terms. Cloudinary image upload works only after the owner configures Cloudinary credentials; never commit the API secret. No Google ranking, response time, authorized-brand status, water-safety claim or customer review is promised.
 
 ## Requirements
 
@@ -47,7 +47,7 @@ Starter for the QuickFix RO service and spare-parts business in Patna. **Stack i
    ```
 
    Copy the printed bcrypt hash into `ADMIN_PASSWORD_HASH`. Never put the raw password or generated secrets into Git. Add `ADMIN_TOTP_SECRET` manually to an authenticator app as a TOTP secret (6 digits, 30-second period); then use the current code at sign-in.
-5. Update the public placeholder values in `.env.local`: phone, WhatsApp digits (country code, no `+`), address, and `NEXT_PUBLIC_SITE_URL`.
+5. The confirmed default customer contact is 9661288308 (WhatsApp digits `919661288308`). Set the verified address and final `NEXT_PUBLIC_SITE_URL`; optional Cloudinary credentials enable admin product-image upload. The admin business profile can also store an optional legal name and GSTIN.
 6. Create the schema and starter data:
 
    ```bash
@@ -72,7 +72,7 @@ For local database operations, `.env.local` needs both Neon URLs. Never paste re
 
 Vercel's normal project-import flow connects a Git repository; **do not upload the ZIP as a deployable project**. Extract it first, then push the folder's contents to a private GitHub repository.
 
-1. Download `quickfix-vercel.zip` and extract it.
+1. Download the latest QuickFix source archive provided with this update and extract it.
 2. Create a **private** GitHub repository, for example `quickfix-app`. Do not check in `.env.local`, `.env`, credentials, OTP secrets or password hashes. `.gitignore` excludes local env files.
 3. In a terminal, enter the extracted `quickfix-app` directory and run:
 
@@ -107,7 +107,7 @@ Vercel's normal project-import flow connects a Git repository; **do not upload t
 1. Sign in to Vercel and choose **Add New → Project**.
 2. Import the private GitHub repo. If you placed the app in a subfolder, set **Root Directory** to `quickfix-app`; if you pushed the contents of that folder at repository root, leave it as `./`.
 3. Framework preset: **Next.js**. Build command: `npm run build`. Install command: `npm install`. Output directory: leave the Next.js default. Select Node.js 22.x in Project Settings → General if the option is shown.
-4. In **Project → Settings → Environment Variables**, add the following for the environments you intend to deploy. Add production values to Production; use separate test values for Preview/Development.
+4. In **Project → Settings → Environment Variables**, add the following for the environments you intend to deploy. Add production values to Production; use separate test values for Preview/Development. To enable admin product images, also configure `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` (server-only).
 
    | Name | Value |
    |---|---|
@@ -118,11 +118,14 @@ Vercel's normal project-import flow connects a Git repository; **do not upload t
    | `ADMIN_TOTP_SECRET` | Base32 TOTP secret from the generator |
    | `SESSION_SECRET` | Random secret from the generator |
    | `NEXT_PUBLIC_SITE_URL` | Your final HTTPS URL, e.g. `https://quickfix.in` |
-   | `NEXT_PUBLIC_BUSINESS_PHONE` | Real customer-facing phone in international format |
-   | `NEXT_PUBLIC_WHATSAPP_NUMBER` | Real WhatsApp number, digits only with country code |
-   | `NEXT_PUBLIC_BUSINESS_ADDRESS` | Real public business address or service-area wording |
+   | `NEXT_PUBLIC_BUSINESS_PHONE` | `+91 96612 88308` (or owner-approved replacement) |
+   | `NEXT_PUBLIC_WHATSAPP_NUMBER` | `919661288308` (digits only, country code included) |
+   | `NEXT_PUBLIC_BUSINESS_ADDRESS` | Verified public address or service-area wording (do not guess a street address) |
+   | `CLOUDINARY_CLOUD_NAME` | Optional: Cloudinary cloud name for signed admin product-image uploads |
+   | `CLOUDINARY_API_KEY` | Optional: Cloudinary upload API key |
+   | `CLOUDINARY_API_SECRET` | Optional, sensitive: server-only Cloudinary secret |
 
-   Set **Sensitive** for database URLs and auth secrets where Vercel offers that option. Never use the example phone/address in production. Do not enable production traffic until an owner has verified the business identity and legal details.
+   Set **Sensitive** for database URLs and auth secrets where Vercel offers that option. The phone above was confirmed by the owner; verify the number can receive business calls/WhatsApp before launch. Do not invent a public address. Do not enable production traffic until an owner has verified the business identity and legal details.
 5. Click **Deploy**. Watch the build log. The build runs `prisma generate && next build`; the database must already have been initialized in step B.
 6. When the first deployment is ready, open the generated `*.vercel.app` URL and verify the home page, `/ro-service-in-patna`, `/robots.txt`, and `/sitemap.xml`. Then visit `/control/login`, sign in with password plus your current authenticator code, verify the dashboard, and sign out.
 7. Add your real domain under **Project → Settings → Domains**. At your domain registrar, apply the exact DNS records Vercel displays. Wait for Vercel to show the domain as verified and HTTPS active.
@@ -133,9 +136,9 @@ Vercel's normal project-import flow connects a Git repository; **do not upload t
 
 Commit and push changes to GitHub. Vercel automatically creates preview deployments and updates production from the configured production branch (normally `main`). Keep provider keys in Vercel Environment Variables; rotate compromised keys immediately and redeploy.
 
-## ZIP contents and checks
+## Source archive and checks
 
-The ZIP contains the complete `quickfix-app/` source folder. After extracting, run:
+The current source archive contains the complete `quickfix-app/` source folder; it excludes `.env.local` and generated dependencies. After extracting, run:
 
 ```bash
 npm install
@@ -147,7 +150,7 @@ npm run build
 
 ## Before production
 
-- Replace all phone/address placeholders. Add real logo, GST details, policies, hours, approved service pricing and owner contact information.
+- Verify the configured phone/WhatsApp and owner-entered address, hours, optional GST/legal name. Review the custom brand mark and policies; policy drafts must be approved before orders.
 - Configure persistent login rate limiting/WAF; enable and test TOTP; protect account recovery; run a security review.
 - Put recurring schema changes on Prisma migrations; test backups and restore.
 - Add and verify OTP/WhatsApp/email, Razorpay (test then live), object storage and monitoring integrations before claiming they work.
@@ -156,8 +159,8 @@ npm run build
 
 ## Current known limitations
 
-- Homepage and service page are starter content; no 50+ locality landing pages are published. The seed list is database data only.
-- Display contact details are environment driven at this phase; no owner settings editor yet.
-- Service price values are examples only and must be verified before displaying any binding quote.
-- Admin bootstrap identity/2FA secret are environment-configured. User/role management, account recovery, persistent rate limiting, audit logging of actual UI operations and DB-backed admin sign-in are future work.
-- Customer OTP, live booking slots, technicians, product pages, inventory operations, checkout, payments, notifications, invoicing and order management are schema/planned, not active flows.
+- The 97 locality pages are concise enquiry guides based on a curated locality list. Verify exact service coverage and enrich pages only with owner-verified details/photos; no local water claims are invented.
+- Admin supports business profile, catalog CRUD, stock adjustments and product SEO. Admin photo uploads require Cloudinary environment credentials.
+- Public catalog is enquiry-only. No booking flow, customer OTP, cart, checkout, payments, order fulfilment, shipping, customer accounts, invoice/tax automation, full CMS, technician CRM or admin role manager is active.
+- Admin password and TOTP are deployment secrets. Rotate any previously exposed password/hash, set TOTP and configure persistent rate limiting/WAF before launch.
+- Business policies are drafts; have a qualified adviser review them against actual business practices before publishing or accepting orders.
