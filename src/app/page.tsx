@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { localityPages } from '@/lib/patna-localities';
 import { getBusinessProfile } from '@/lib/business-profile';
 import { brands } from '@/lib/public-content';
-import { FloatingContact } from '@/components/seo-page';
+import { FloatingContact, PublicHeader } from '@/components/seo-page';
+import { QuickEnquiryForm } from '@/components/quick-enquiry-form';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = { title: 'RO Service & Repair in Patna | QuickFix RO Care', alternates: { canonical: '/' }, description: 'Enquire about RO repair, installation, AMC and compatible spare parts in Patna. Call or WhatsApp QuickFix at 96612 88308.' };
@@ -17,11 +18,7 @@ export default async function Home() {
   return <main>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema).replace(/</g, '\\u003c') }} />
     <div className="topline"><div className="container topinner"><span>Patna, Bihar · Home & Commercial RO Care</span><span className="top-right">{profile.hours}</span></div></div>
-    <header className="nav"><div className="container navinner">
-      <Link className="brand" href="/" aria-label="QuickFix home"><span className="brandmark">Q<span>F</span></span><span>quickfix<span className="branddot">.</span><small>RO CARE · PATNA</small></span></Link>
-      <nav className="navlinks"><Link href="#services">Services</Link><Link href="#why-us">Why QuickFix</Link><Link href="#contact">Contact</Link></nav>
-      <a className="navphone" href={phoneLink}><span className="phoneicon">↗</span><span><small>CALL OUR TEAM</small><b>{profile.phone}</b></span></a>
-    </div></header>
+    <PublicHeader />
 
     <section className="hero"><div className="container hero-grid">
       <div className="hero-copy"><div className="eyebrow"><span className="pulse"></span> YOUR LOCAL RO CARE TEAM · PATNA</div>
@@ -32,6 +29,8 @@ export default async function Home() {
       </div>
       <div className="hero-art hero-photo"><Image src="/images/quickfix-hero-water-purifier.jpg" alt="Illustrative RO water purifier service scene" fill priority sizes="(max-width: 800px) 100vw, 48vw" className="hero-photo-img"/><div className="hero-photo-badge"><span>✓</span><div><b>Home RO care</b><small>Repair · setup · maintenance</small></div></div><div className="hero-photo-caption">ILLUSTRATIVE IMAGE · LOCAL ENQUIRIES · PATNA</div></div>
     </div><div className="hero-wave"></div></section>
+
+    <QuickEnquiryForm whatsapp={profile.whatsapp} compact />
 
     <section className="trustbar"><div className="container trustgrid"><div><strong>01</strong><span><b>Service enquiries</b><small>Confirm area availability</small></span></div><div><strong>02</strong><span><b>Estimate first</b><small>Approve work after quote</small></span></div><div><strong>03</strong><span><b>Model compatibility</b><small>Confirm parts before fitting</small></span></div><div><strong>04</strong><span><b>Major brands</b><small>Support depends on model</small></span></div></div></section>
 

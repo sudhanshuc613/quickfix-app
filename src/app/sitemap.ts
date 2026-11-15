@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = env.NEXT_PUBLIC_SITE_URL;
-  const core = ['', '/ro-service-in-patna', '/about', '/contact', '/faq', '/reviews', '/shop', '/areas', '/privacy-policy', '/terms', '/refund-policy', '/shipping-policy', '/warranty-policy'];
+  const core = ['', '/ro-service-in-patna', '/about', '/contact', '/faq', '/reviews', '/shop', '/areas', '/brands', '/privacy-policy', '/terms', '/refund-policy', '/shipping-policy', '/warranty-policy'];
   let categories: { slug: string; updatedAt: Date }[] = [];
   let products: { slug: string; updatedAt: Date }[] = [];
   try {
